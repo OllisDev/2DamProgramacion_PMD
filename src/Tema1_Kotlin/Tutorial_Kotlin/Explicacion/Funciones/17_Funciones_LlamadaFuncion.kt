@@ -1,0 +1,13 @@
+package Tema1_Kotlin.Tutorial_Kotlin.Explicacion.Funciones
+
+// LLamada a la funcion con argumentos nombrados: llamar a la funcion en cualquier orden los parámetros, pero hay que especificar el nombre del parámetro y el valor a enviarle
+fun calcularSueldo(nombre: String, costoHora: Double, cantidadHoras: Int) {
+    val sueldo = costoHora * cantidadHoras
+    println("$nombre trabajó $cantidadHoras horas, se le paga por hora $costoHora por lo tanto le corresponde un sueldo de $sueldo")
+}
+
+fun main(parametro: Array<String>) {
+    calcularSueldo("juan", 10.5, 120)
+    calcularSueldo(costoHora = 12.0, cantidadHoras = 40, nombre = "ana")
+    calcularSueldo(cantidadHoras = 90, nombre = "luis", costoHora = 7.25)
+}
