@@ -9,8 +9,10 @@ retirar una cantidad fija) a cada una de ellas.
  */
 // Clase abstracta Cuenta con métodos abstractos 'depositar' y 'retirar'
 abstract class Cuenta(var saldo: Double) {
+    // Metodos abstractos que implementará las clases hijas (CuentaAhorros y CuentaCorriente)
     abstract fun depositar(cantidad: Double)
     abstract fun retirar(cantidad: Double)
+    abstract fun transferir(cantidad: Double)
 }
 
 // Clase CuentaAhorros hereda de Cuenta
@@ -30,7 +32,17 @@ class CuentaAhorros(saldoInicial: Double) : Cuenta(saldoInicial) {
             println("Saldo insuficiente para retirar $cantidad.")
         }
     }
+
+    override fun transferir(cantidad: Double) {
+        if (cantidad <= saldo) {
+            saldo -= cantidad
+            println("Se ha transferido $cantidad de manera exitosa. Saldo actual: $saldo")
+        } else {
+            println("Saldo insuficiente para realizar la operación.")
+        }
+    }
 }
+
 
 // Clase CuentaCorriente hereda de Cuenta
 class CuentaCorriente(saldoInicial: Double) : Cuenta(saldoInicial) {
@@ -50,12 +62,14 @@ class CuentaCorriente(saldoInicial: Double) : Cuenta(saldoInicial) {
             println("Saldo insuficiente para retirar $cantidad, incluyendo la comisión.")
         }
     }
-}
 
-// Función de orden superior que aplica una operación a cada cuenta
-fun aplicarOperacionACuentas(cuentas: List<Cuenta>, operacion: (Cuenta) -> Unit) {
-    cuentas.forEach { cuenta ->
-        operacion(cuenta)
+    override fun transferir(cantidad: Double) {
+        if (cantidad <= saldo) {
+            saldo -= cantidad
+            println("Se ha transferido $cantidad de manera exitosa. Saldo actual: $saldo")
+        } else {
+            println("Saldo insuficiente para poder realizar la operación.")
+        }
     }
 }
 
@@ -79,4 +93,16 @@ fun main() {
     aplicarOperacionACuentas(cuentas) { cuenta ->
         cuenta.depositar(500.0)
     }
+    println("\nAplicando transferencia de 300 a cada cuenta:")
+    aplicarOperacionACuentas(cuentas) { cuenta ->
+        cuenta.transferir(300.0)
+    }
 }
+// Función de orden superior (pasar como parametro una función) que aplica una operación a cada cuenta
+fun aplicarOperacionACuentas(cuentas: List<Cuenta>, operacion: (Cuenta) -> Unit) {
+    cuentas.forEach { cuenta ->
+        operacion(cuenta)
+    }
+}
+
+// Unit -> valor numérico
